@@ -534,7 +534,7 @@ contract Crowdsale is Ownable {
   uint256 current_balance = investorweicontributed[msg.sender];
   investorweicontributed[msg.sender] = 0;
   
-  accountTokensPurchased[msg.sender] = 0; // transfer ownership back -TODO
+  accountTokensPurchased[msg.sender] = 0; 
   msg.sender.transfer(current_balance);
   }
   
