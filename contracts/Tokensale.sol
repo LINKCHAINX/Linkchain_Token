@@ -529,7 +529,7 @@ contract Crowdsale is Ownable {
   require(hasendedsale);
   require(!softCapReached());
   require(investorweicontributed[msg.sender] > 0);
-  require(addId[msg.sender] > 0 && addId[msg.sender] <= 6);
+  require(addId[msg.sender] > 0 && addId[msg.sender] <= 3);
 
   uint256 current_balance = investorweicontributed[msg.sender];
   investorweicontributed[msg.sender] = 0;
