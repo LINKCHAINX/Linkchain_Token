@@ -98,13 +98,15 @@ contract Crowdsale is Ownable {
   
   
   //to set the time at which tokens hit the exchanges
-  //TODO - if exchanges are hit, sale has been stopped
+  //Call this function only when sale ends
   function tokensavailableinexchange(bool _status) public onlyOwner
   {
       require(tokensinexchange != _status);
       tokensinexchange = _status;
       if(_status)
-      {timetohitexchange = now;}
+      {timetohitexchange = now;
+       hasendedsale = true;  
+      }
       else
       timetohitexchange = 0;
   }
@@ -114,7 +116,7 @@ contract Crowdsale is Ownable {
   //helper function to set soft cap as a preventive step against market volatility
   function setsoftcap(uint256 _softCap) onlyOwner public{
       require(_softCap< hardCap);
-      softCap = _softCap * 1 ether;
+      softCap = _softCap.mul(1 ether);
      
    }
    
@@ -123,36 +125,26 @@ contract Crowdsale is Ownable {
   
   function sethardcap(uint256 _hardCap) onlyOwner public{
       require(_hardCap>softCap);
-      hardCap = _hardCap * 1 ether;
+      hardCap = _hardCap.mul(1 ether);
     
    }
   
-  
-  
-  uint256 teamtokensadded;
-  uint256 partnertokensadded;
-  uint256 advisortokensadded;
-  
-  
+
   
   // ASSIGNING TOKENS TO ADDRESSES
   
   //assigning team addresses to token allocation
-  //TODO - team length less than 150 and add amount of tokens
-  //not using add if same set of team array is given as input
-  //check if there is any overlap between them
-  
-  //require - total added are less than upper limit
-  //ask about the case in which any member is removed
   
   function distributetokenstomembers(address[] memory _members, uint256 id, uint256 amount) onlyOwner public
   {
       require(_members.length<=150);
-      require(valid_distribution(id,amount,_members.length));
       require(4<=id && id<=6);
+      require(valid_distribution(id,amount,_members.length));
+      
       
       for(uint i=0; i<_members.length;i++)
-      {   
+      {   require(_members[i] != address(0));
+          //If the owner sends an already listed address, the function ignores it
           if(addId[_members[i]] == 0)
           {
               accountTokensPurchased[_members[i]] = amount;
@@ -160,39 +152,40 @@ contract Crowdsale is Ownable {
               tokensdistributed(id,amount);
               
           }
+          else continue;
       }
       
       
   }
   
   
-  //TODO -check for edge cases
+
   function valid_distribution(uint256 _id, uint256 _amount, uint256 length) internal view returns(bool)
-  {
+  {   require(!hasendedsale);
       uint256 getremainingdifference;
       uint256 getaddedtokens = idtotokens[_id];
       if(_id == 4)
       {
-          getremainingdifference = TEAM_TOKENS - getaddedtokens;
+          getremainingdifference = TEAM_TOKENS.sub(getaddedtokens);
       }
       
       if(_id == 5)
       {
-          getremainingdifference = STRATEGIC_PARTNERS_TOKENS - getaddedtokens;
+          getremainingdifference = STRATEGIC_PARTNERS_TOKENS.sub(getaddedtokens);
       }
       
       if(_id == 6)
       {
-          getremainingdifference = ADVISOR_TOKENS - getaddedtokens;
+          getremainingdifference = ADVISOR_TOKENS.sub(getaddedtokens);
       }
-      return _amount*length <= getremainingdifference;
+      return _amount.mul(length) <= getremainingdifference;
   }
   
   
 
   //to remove a member from the sale
   function removemember(address _member) onlyOwner public
-  {
+  {   require(_member != address(0));
       require(addId[_member]>=4 && addId[_member]<=6);
       
       uint256 identity = addId[_member];
@@ -227,8 +220,7 @@ contract Crowdsale is Ownable {
    
    //function to add addresses to whitelist (one at a time)
    //If a person wants to get into different whitelists, they need to have separate addresses whitelisted
-   //upper limit on stage
-   //owner in all whitelists
+   
    function addAddressToWhitelist(address _addr, uint256 _stage) onlyOwner  public {
     require(_addr != address(0));
     require(addId[_addr] == 0);
@@ -243,13 +235,6 @@ contract Crowdsale is Ownable {
   }
   
    //function to add multiple addresses to whitelist in batch  
-   // arg to be made memory
-   //Id to be added
-   //whitelist add 0 check missing
-   // emit event
-   //0 whitelist check missing
-   //upper limit to stage required
-   //what if the array contains already whitelisted account
  
    function addWhitelists(address[] memory contributors, uint256 _stage) onlyOwner public {
      require(_stage> 0 && _stage <=3);
@@ -264,6 +249,7 @@ contract Crowdsale is Ownable {
         addId[contributors[i]] = _stage; 
         emit WhitelistedAddressAdded(contributors[i],_stage);
       }
+      else continue;
       
     }
     
@@ -299,8 +285,7 @@ contract Crowdsale is Ownable {
    
    // Allows the admin to determine what is the current stage for
    // the sale. It can only move forward.
-   //TODO -set upper limit on stage
-   //the returns bool is of no use - use require
+   
    function setCurrentStage(uint256 _stage) public onlyOwner {
       require(_stage > 0 && _stage<=3);
       require(_stage>currentStage);
@@ -314,12 +299,7 @@ contract Crowdsale is Ownable {
       
     }
     
-    
- /*  function hasEnded() public constant returns (bool) {
-       return now > endTime || token.totalSupply() == TOTAL_NUM_TOKENS;
-    
-       
-*/   
+ 
 
    //funciton to check if the soft cap has been reached
    function softCapReached() constant public returns(bool) 
@@ -374,12 +354,12 @@ contract Crowdsale is Ownable {
   uint256 public totaltokensprivatesale;
   uint256 public totaltokenscrowdsale;
   
-  mapping (uint256 => uint256) idtotokens;
+  mapping (uint256 => uint256) public idtotokens;
 
-  // low level token purchase function
+  //low level token purchase function
   //check for upper buy limit per person and also refund excess money
   
-  function getprice() internal returns(uint256)
+  function getprice() internal view returns(uint256)
   {
       if(currentStage == 1)
       {return PRICE_PER_TOKEN_PRESALE;}
@@ -407,7 +387,7 @@ contract Crowdsale is Ownable {
 
     uint256 weiAmount = msg.value;
     uint256 price = getprice();
-    uint256 tokens = (weiAmount/price);
+    uint256 tokens = (weiAmount.div(price));
     accountTokensPurchased[beneficiary] = accountTokensPurchased[beneficiary].add(tokens);
     investorweicontributed[beneficiary] = investorweicontributed[beneficiary].add(msg.value);
     tokensdistributed(currentStage, tokens);
@@ -567,11 +547,11 @@ contract Crowdsale is Ownable {
     //bool withinPeriod = now >= START_TIME_CROWDSALE && now <= END_TIME_CROWDSALE;
     bool nonexcessivepurchase;
     bool nonZeroPurchase;
-    uint256 price = getprice();
+    
     
     if(currentStage == 1)
     { 
-        nonexcessivepurchase = (msg.value/(PRICE_PER_TOKEN_PRESALE)) <= (PRESALE_TOKENS - idtotokens[1]);
+        nonexcessivepurchase = (msg.value.div(PRICE_PER_TOKEN_PRESALE)) <= (PRESALE_TOKENS.sub(idtotokens[1]));
         nonZeroPurchase = msg.value != 0 && msg.value>=MIN_INVESTMENT_PRESALE;
         
     }
@@ -579,7 +559,7 @@ contract Crowdsale is Ownable {
     if(currentStage == 2)
     
     { 
-        nonexcessivepurchase = (msg.value/(PRICE_PER_TOKEN_PRIVATESALE)) <= (PRIVATESALE_TOKENS - idtotokens[2]);
+        nonexcessivepurchase = (msg.value.div(PRICE_PER_TOKEN_PRIVATESALE)) <= (PRIVATESALE_TOKENS.sub(idtotokens[2]));
         nonZeroPurchase = msg.value != 0 && msg.value>=MIN_INVESTMENT_PRIVATESALE;
         
     }
@@ -587,7 +567,7 @@ contract Crowdsale is Ownable {
     if(currentStage == 3)
     
     { 
-        nonexcessivepurchase = (msg.value/(PRICE_PER_TOKEN_CROWDSALE)) <= (CROWDSALE_TOKENS - idtotokens[3]);
+        nonexcessivepurchase = (msg.value.div(PRICE_PER_TOKEN_CROWDSALE)) <= (CROWDSALE_TOKENS.sub(idtotokens[3]));
         nonZeroPurchase = msg.value != 0 && msg.value>=MIN_INVESTMENT_CROWDSALE;
     }
     
