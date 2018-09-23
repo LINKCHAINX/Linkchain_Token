@@ -59,7 +59,7 @@ contract LinkchainToken is StandardToken, Ownable, BurnableToken, PausableToken 
         super.unpause();
     }
 
-    function transferAndCall(address _recipient, uint256 _amount, bytes _data) public {
+/*    function transferAndCall(address _recipient, uint256 _amount, bytes _data) public {
         require(_recipient != address(0));
         require(_amount <= balances[msg.sender]);
 
@@ -68,7 +68,7 @@ contract LinkchainToken is StandardToken, Ownable, BurnableToken, PausableToken 
 
         require(TokenRecipient(_recipient).tokenFallback(msg.sender, _amount, _data));
         emit Transfer(msg.sender, _recipient, _amount);
-    }
+    } */
 
 }
 
