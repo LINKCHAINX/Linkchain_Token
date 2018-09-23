@@ -1,6 +1,6 @@
 pragma solidity ^0.4.24;
 
-import './token/StandardToken.sol'
+import './token/StandardToken.sol';
 
 contract BurnableToken is StandardToken {
 
