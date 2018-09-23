@@ -1,13 +1,14 @@
 pragma solidity ^0.4.24;
 
-import './ownership/Ownable.sol'
-import './math/SafeMath.sol'
+import './ownership/Ownable.sol';
+import './math/SafeMath.sol';
+import './token/LinkchainInteface.sol';
 
 contract Crowdsale is Ownable {
   using SafeMath for uint256;
 
   // The token being sold
-  LinkchainToken public token;
+  LinkchainInterface public token;
 
   
   // address where funds are collected
@@ -335,7 +336,7 @@ contract Crowdsale is Ownable {
     require(_reserveaccount != 0x0);
     
     currentStage = 0;
-    token = LinkchainToken(_token);
+    token = LinkchainInterface(_token);
     reserveaccount = _reserveaccount;
     
    
