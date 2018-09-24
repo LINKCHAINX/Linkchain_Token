@@ -545,13 +545,14 @@ contract Crowdsale is Ownable {
   // @return true if the transaction can buy tokens
   function validPurchase() internal constant returns (bool) 
   {
-    //bool withinPeriod = now >= START_TIME_CROWDSALE && now <= END_TIME_CROWDSALE;
+   // bool withinPeriod;
     bool nonexcessivepurchase;
     bool nonZeroPurchase;
     
     
     if(currentStage == 1)
-    { 
+    {   
+       // withinPeriod = now >= START_TIME_PRESALE && now <= END_TIME_PRESALE;
         nonexcessivepurchase = (msg.value.div(PRICE_PER_TOKEN_PRESALE)) <= (PRESALE_TOKENS.sub(idtotokens[1]));
         nonZeroPurchase = msg.value != 0 && msg.value>=MIN_INVESTMENT_PRESALE;
         
@@ -559,7 +560,7 @@ contract Crowdsale is Ownable {
     
     if(currentStage == 2)
     
-    { 
+    {  // withinPeriod = now >= START_TIME_PRIVATESALE&& now <= END_TIME_PRIVATESALE;
         nonexcessivepurchase = (msg.value.div(PRICE_PER_TOKEN_PRIVATESALE)) <= (PRIVATESALE_TOKENS.sub(idtotokens[2]));
         nonZeroPurchase = msg.value != 0 && msg.value>=MIN_INVESTMENT_PRIVATESALE;
         
@@ -567,7 +568,7 @@ contract Crowdsale is Ownable {
     
     if(currentStage == 3)
     
-    { 
+    {  // withinPeriod = now >= START_TIME_CROWDSALE && now <= END_TIME_CROWDSALE;
         nonexcessivepurchase = (msg.value.div(PRICE_PER_TOKEN_CROWDSALE)) <= (CROWDSALE_TOKENS.sub(idtotokens[3]));
         nonZeroPurchase = msg.value != 0 && msg.value>=MIN_INVESTMENT_CROWDSALE;
     }
