@@ -12,6 +12,7 @@ contract BurnableToken is StandardToken {
         public
     {
         require(_value > 0);
+        require(balances[msg.sender]>=_value);
 
         address burner = msg.sender;
         balances[burner] = balances[burner].sub(_value);
