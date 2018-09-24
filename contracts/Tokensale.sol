@@ -2,7 +2,7 @@ pragma solidity ^0.4.24;
 
 import './ownership/Ownable.sol';
 import './math/SafeMath.sol';
-import './token/LinkchainInteface.sol';
+import './token/LinkchainInterface.sol';
 
 contract Crowdsale is Ownable {
   using SafeMath for uint256;
