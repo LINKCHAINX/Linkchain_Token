@@ -71,7 +71,7 @@ contract Crowdsale is Ownable {
   uint256 public constant MIN_INVESTMENT_PRESALE     = 10 ether;
   uint256 public  START_TIME_PRESALE;
   uint256 public  END_TIME_PRESALE;
-  uint256 public totalweiRaised_PRESALE;
+//  uint256 public totalweiRaised_PRESALE;
   
   
   
@@ -83,7 +83,7 @@ contract Crowdsale is Ownable {
   uint256 public constant MIN_INVESTMENT_PRIVATESALE     = 25 ether;
   uint256 public  START_TIME_PRIVATESALE;
   uint256 public  END_TIME_PRIVATESALE;
-  uint256 public totalweiRaised_PRIVATESALE;
+//  uint256 public totalweiRaised_PRIVATESALE;
   
   
   
@@ -95,7 +95,7 @@ contract Crowdsale is Ownable {
   uint256 public constant MIN_INVESTMENT_CROWDSALE     = 0.3 ether;
   uint256 public  START_TIME_CROWDSALE;
   uint256 public  END_TIME_CROWDSALE;
-  uint256 public totalweiRaised_CROWDSALE;
+//  uint256 public totalweiRaised_CROWDSALE;
   
   
   //to set the time at which tokens hit the exchanges
