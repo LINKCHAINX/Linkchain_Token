@@ -545,6 +545,7 @@ contract Crowdsale is Ownable {
   // @return true if the transaction can buy tokens
   function validPurchase() internal constant returns (bool) 
   {
+    require(!hasendedsale);
    // bool withinPeriod;
     bool nonexcessivepurchase;
     bool nonZeroPurchase;
