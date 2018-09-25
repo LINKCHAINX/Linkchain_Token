@@ -978,6 +978,7 @@ Arguments
   * [buyTokens](#function-buyTokens)
   * [claimTokens](#function-claimTokens)
   * [claimTokensreserve](#function-claimTokensreserve)
+  * [currentStage](#function-currentstage)
   * [distributetokenstomembers](#function-distributetokenstomembers)
   * [forwardFunds](#function-forwardFunds) 
   * [getprice](#function-getprice)
@@ -1203,6 +1204,8 @@ Inputs
 |-|-|-|
 | *uint256* | _stage | undefined |
 
+## *function* currentStage
+Crowdsale.currentStage () `view` `5bf5d54c`
 
 
 ## *function* softCapReached
