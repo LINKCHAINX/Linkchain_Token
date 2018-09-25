@@ -395,7 +395,7 @@ contract Crowdsale is Ownable {
 
 
   // send ether to the fund collection wallet
-  // fund forwarding only allowed if softcape has been reached
+  // fund forwarding only allowed if softcap has been reached
    
    function forwardFunds() onlyOwner public {
     require(softCapReached());   
@@ -405,8 +405,8 @@ contract Crowdsale is Ownable {
   
   //function to claim tokens sold in pre-sale/private sale/crowdsale
   
-  mapping(address => bool) advisorclaimswitch;
-  mapping(address => bool) teamclaimswitch;
+  mapping(address => bool) internal advisorclaimswitch;
+  mapping(address => bool) internal teamclaimswitch;
    
    function isValidclaim(uint256 _id) internal view returns(bool)
    {
