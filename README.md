@@ -988,7 +988,7 @@ Arguments
   * [isValidclaim](#function-isValidclaim)
   * [owner](#function-owner)
   * [removemember](#function-removemember)  
-  * [removeAddressFromWhitelist](#function- removeAddressFromWhitelist)
+  * [removeAddressFromWhitelist](#function- removeaddressfromwhitelist)
   * [renounceOwnership](#function-renounceownership)
   * [refund](#function- refund)
   * [setsoftcap](#function-setsoftcap)
