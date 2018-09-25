@@ -350,11 +350,7 @@ contract Crowdsale is Ownable {
    buyTokens(msg.sender);
    }
   
-  
-  uint256 public totaltokenspresale;
-  uint256 public totaltokensprivatesale;
-  uint256 public totaltokenscrowdsale;
-  
+    
   mapping (uint256 => uint256) public idtotokens;
 
     
