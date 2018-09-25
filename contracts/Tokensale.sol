@@ -357,9 +357,7 @@ contract Crowdsale is Ownable {
   
   mapping (uint256 => uint256) public idtotokens;
 
-  //low level token purchase function
-  //check for upper buy limit per person and also refund excess money
-  
+    
   function getprice() internal view returns(uint256)
   {
       if(currentStage == 1)
