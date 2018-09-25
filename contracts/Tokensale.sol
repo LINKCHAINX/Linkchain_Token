@@ -49,9 +49,7 @@ contract Crowdsale is Ownable {
   //TODO - private
   mapping(address => uint256) public addId;
   
-  //account to hold reserve tokens
-  address public reserveaccount;
-  
+    
   
   //token distribution
   
@@ -328,17 +326,16 @@ contract Crowdsale is Ownable {
    
   //constructor function for the crowdsale 
   //TODO- add start time and end time functionality at time of deployment
-  constructor (address _reserveaccount, address _wallet, address _token) public {
+  constructor (address _wallet, address _token) public {
     //require(_startTime >= now);
     //require(_endTime >= _startTime);
     
     require(_wallet != 0x0);
-    require(_reserveaccount != 0x0);
+    
     
     currentStage = 0;
     token = LinkchainInterface(_token);
-    reserveaccount = _reserveaccount;
-    
+      
    
     wallet = _wallet;
   }
@@ -501,13 +498,24 @@ contract Crowdsale is Ownable {
     
  
     //function to send tokens to reserve
-    function claimTokensreserve() onlyOwner public 
-    { require(now>= timetohitexchange);
+    function claimTokensreserve(address _reserve) onlyOwner public 
+    { require(_reserve != 0x0);
+      require(now>= timetohitexchange);
       uint256 res = RESERVE_TOKENS;
       RESERVE_TOKENS = 0;
-      token.transferFrom(token.owner(),reserveaccount, res);
+      token.transferFrom(token.owner(), _reserve, res);
       
     }  
+    
+    //function to send tokens to operations
+    function claimTokensoperations(address _operations) onlyOwner public 
+    { require(_operations != 0x0);
+      require(now>= timetohitexchange);
+      uint256 ops = OPERATIONS_TOKENS;
+      OPERATIONS_TOKENS = 0;
+      token.transferFrom(token.owner(), _operations, ops);
+      
+    }    
     
   
   function allowrefund() onlyOwner public  
