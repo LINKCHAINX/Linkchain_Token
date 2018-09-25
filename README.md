@@ -73,15 +73,6 @@ https://docs.google.com/document/d/1ev0RZ6goeNlgWCp1w2jYCwEtPkDM9K8A23qyg_fFLHs/
   * [allowance](#function-allowance)  
   * [Approval](#event-approval)
   * [Transfer](#event-transfer)
-* [StandardToken](#standardtoken)
-  * [approve](#function-approve)
-  * [totalSupply](#function-totalsupply)
-  * [transferFrom](#function-transferfrom)  
-  * [increaseApproval](#function-increaseapproval)
-  * [decreaseApproval](#function-decreaseapproval)
-  * [allowance](#function-allowance)  
-  * [Approval](#event-approval)
-  * [Transfer](#event-transfer)
 * [BurnableToken](#burnabletoken)  
   * [approve](#function-approve)
   * [burn](#function-burn)
@@ -1236,11 +1227,6 @@ Crowdsale.forwardFunds () `nonpayable` `9d735286`
 > To forward funds to the wallet where the collected money is to be stored
 
 
-## *function* fallback
-
-Crowdsale.() `payable` 
-
-> To forward funds to the wallet where the collected money is to be stored
 
 
 ## *function* claimTokens
