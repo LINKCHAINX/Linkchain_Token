@@ -974,6 +974,7 @@ Arguments
   * [addAddressToWhitelist](#function-addAddressToWhitelist)
   * [addWhitelists](#function-addWhitelists)
   * [allowrefund](#function-allowrefund)
+  * [addId](#function-addId)
   * [buyTokens](#function-buyTokens)
   * [claimTokens](#function-claimTokens)
   * [claimTokensreserve](#function-claimTokensreserve)
@@ -1102,7 +1103,13 @@ Crowdsale.sethardcap (hardCap) `nonpayable` `07c24923`
 |-|-|-|
 | *uint256* | hardCap | undefined |
 
+## *function* addId
 
+Crowdsale.addId (addr) `nonpayable` `a7508a74`
+
+| **type** | **name** | **description** |
+|-|-|-|
+| *address* | addr | address of which the Id is to be checked |
 
 ## *function* distributetokenstomembers
 
